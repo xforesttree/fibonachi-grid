@@ -17,8 +17,9 @@ type StylingProps = {
 const StyledCell = styled.div<StylingProps>`
     background-color: ${props => (props.clicked ? "yellow" : "white")};
     border: 1px solid black;
-    min-width: 25px;
-    min-height: 25px;
+    min-width: 20px;
+    min-height: 20px;
+    font-family: "Open Sans", Arial;
     grid-row: ${({ rowIndex }) => `${rowIndex} / ${rowIndex + 1}`};
     grid-column: ${({ columnIndex }) => `${columnIndex} / ${columnIndex + 1}`};
 `;

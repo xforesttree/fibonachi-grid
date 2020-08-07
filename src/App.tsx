@@ -18,26 +18,30 @@ function App() {
         setUpdatedCells(null);
     }
 
+    function updateRowAndColumns(clickedCell: CellState, row: CellState[], column: CellState[]) {
+        const cellsWithNewValue: CellState[] = [];
+        column.forEach((columnCell: CellState) => {
+            cellsWithNewValue.push(updateCell(columnCell));
+        });
+        row.forEach((rowCell: CellState) => {
+            rowCell.key !== clickedCell.key && cellsWithNewValue.push(updateCell(rowCell));
+        });
+        setCells([...cells, ...cellsWithNewValue]);
+
+        setTimeout(unClick, 400);
+    }
+
     function onClick(cellObject: CellState) {
         const clickedCell = cells.find((cell: CellState) => cell.key === cellObject.key);
         const rowToUpdate = cells.filter((cell: CellState) => cell.cell.rowIndex === cellObject.cell.rowIndex);
         const columnToUpdate = cells.filter((cell: CellState) => cell.cell.columnIndex === cellObject.cell.columnIndex);
 
         setUpdatedCells([...rowToUpdate, ...columnToUpdate]);
-
         if (clickedCell === undefined) {
             window.Error("something went wrong");
         } else {
-            const cellsWithNewValue: CellState[] = [];
-            columnToUpdate.forEach((columnCell: CellState) => {
-                cellsWithNewValue.push(updateCell(columnCell));
-            });
-            rowToUpdate.forEach((rowCell: CellState) => {
-                rowCell.key !== clickedCell.key && cellsWithNewValue.push(updateCell(rowCell));
-            });
-            setCells([...cells, ...cellsWithNewValue]);
+            updateRowAndColumns(clickedCell, rowToUpdate, columnToUpdate);
         }
-        setTimeout(unClick, 800);
     }
 
     return (
